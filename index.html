@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1618" />
+  <meta name="description" content="手机端实时英文取餐叫号识别和测试记录工具。" />
+  <title>Voice Pickup · 叫号识别测试</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand"><div class="logo" aria-hidden="true">◖◖</div><div><b>VOICE PICKUP</b><span>LIVE CALL DETECTION · MVP 0.1</span></div></div>
+      <span class="top-pill">TEST MODE</span>
+    </header>
+
+    <section class="screen" aria-label="取餐号显示屏">
+      <div class="screen-head"><span>READY FOR PICKUP</span><span class="live-indicator"><i id="live-dot"></i><span id="live-label">未开启</span></span></div>
+      <div class="number-wrap"><p class="eyebrow">LAST CALLED NUMBER</p><div id="current-number" class="main-number" aria-live="polite">—</div><p id="number-note" class="number-note">点击下方按钮开始收音</p></div>
+      <div class="screen-bottom"><div class="sound-icon" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><p id="interim" class="interim">Listening status will appear here</p></div>
+    </section>
+
+    <div class="controls"><button id="toggle-btn" class="primary" type="button"><span class="btn-dot"></span><span id="toggle-text">开始监听 / Start</span></button><button id="demo-btn" class="secondary" type="button">模拟喊号</button></div>
+    <div id="notice" class="notice" role="status">识别语言：英语。浏览器可能需要联网完成语音识别。</div>
+
+    <section class="panel"><div class="section-head"><h2>最近喊号 <span>RECENT CALLS</span></h2><button id="clear-btn" class="quiet" type="button">清空</button></div><div id="recent" class="recent"><div class="empty">还没有识别到有效号码</div></div></section>
+
+    <section class="panel metrics-panel"><div class="section-head"><h2>现场测试 <span>TEST RESULTS</span></h2><button id="export-btn" class="quiet" type="button">导出 CSV ↓</button></div>
+      <div class="metrics"><div><strong id="total-stat">0</strong><small>真实识别次数</small></div><div><strong id="correct-stat">—</strong><small>已评估正确率</small></div><div><strong id="missed-stat">0</strong><small>手动记录漏识别</small></div></div>
+      <p class="hint">每次实际喊号后，可将识别结果标记为正确或错误。漏听时点“记录漏识别”。模拟数据不纳入统计。</p>
+      <div id="event-list" class="event-list"><div class="empty small">尚无现场测试记录</div></div>
+      <button id="missed-btn" class="outline full" type="button">＋ 记录一次漏识别</button>
+    </section>
+
+    <details class="panel settings"><summary>设置与调试 <span aria-hidden="true">⌄</span></summary><div class="settings-content">
+      <label for="language">识别语言</label><select id="language"><option value="en-CA">English (Canada)</option><option value="en-US">English (US)</option></select>
+      <label class="check-row"><input type="checkbox" id="strict" /> <span>严格模式：必须喊出 Order / Number 等关键词（减少误触发，但可能漏掉直接喊号）</span></label>
+      <label for="test-phrase">文字模拟（仅测试号码提取逻辑）</label><div class="test-input"><input id="test-phrase" type="text" placeholder="例如 One twenty five" autocomplete="off" /><button id="phrase-btn" class="outline" type="button">测试</button></div>
+      <div class="debug"><span>最新转写（仅显示于页面，不保存音频）</span><strong id="last-transcript">—</strong></div>
+      <p class="hint">外接麦克风通常需要先在手机系统中设为当前输入。此 MVP 使用浏览器的语音识别服务，不能强制指定某个麦克风，也无法保证持续后台监听。</p>
+    </div></details>
+
+    <footer><p>Prototype · 不连接 Costco POS · 不保存录音或服务器日志</p><p>现场测试请遵守门店规定，避免采集他人私密谈话。</p></footer>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
